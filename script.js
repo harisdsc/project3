@@ -64,6 +64,8 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
 
         const predictor = document.getElementById("predictor").value;
 
+        
+
         if (predictor === "ane_type") {
             xScale = d3.scaleBand()
                 .range([margin.left, width - margin.right])
@@ -89,6 +91,7 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
         );
 
         if (predictor === "ane_type") {
+            svg.selectAll(".legend-group").remove();
             svg.selectAll("circle").remove();
         
             const aggregatedData = Array.from(
@@ -164,7 +167,6 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
         .attr("class", "legend-group")
         .attr("transform", `translate(${width - 120}, 20)`);
 
-        // Add the legend title
         legendGroup.append("text")
         .attr("class", "legend-title")
         .attr("x", 0)
@@ -245,6 +247,48 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
                 tooltip.transition().duration(200).style("opacity", 0);
             });
 
+
+            if (predictor !== "ane_type") {
+                svg.selectAll(".legend-group").remove();
+            
+                const legendGroup = svg.append("g")
+                    .attr("class", "legend-group")
+                    .attr("transform", `translate(${width - 120}, 20)`);
+            
+                legendGroup.append("text")
+                    .attr("class", "legend-title")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("font-weight", "bold")
+                    .attr("font-size", "12px")
+                    .text("Patient Mortality");
+            
+                const legendData = [
+                    { label: "Survived", color: "green" },
+                    { label: "Deceased", color: "red" }
+                ];
+            
+                const legendItems = legendGroup.selectAll(".legend-item")
+                    .data(legendData)
+                    .join("g")
+                    .attr("class", "legend-item")
+                    .attr("transform", (d, i) => `translate(0, ${i * 20 + 15})`);
+            
+                legendItems.append("circle")
+                    .attr("cx", 7.5)
+                    .attr("cy", 0)
+                    .attr("r", 5)
+                    .attr("fill", d => d.color)
+                    .attr("opacity", 0.7);
+            
+                legendItems.append("text")
+                    .attr("x", 20)
+                    .attr("y", 0)
+                    .attr("dy", ".35em")
+                    .style("font-size", "12px")
+                    .text(d => d.label);
+            }
+
         circles.exit().remove();
     }
 
@@ -256,4 +300,4 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
     document.getElementById("mortality").addEventListener("change", updateChart);
 
     updateChart();
-});
+}); 
