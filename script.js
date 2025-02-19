@@ -32,10 +32,6 @@ const asaDescriptions = {
 };
 
 const xAxisLabels = {
-    // "age": "Age (years)",
-    // "bmi": "BMI (kg/m²)",
-    // "intraop_ebl": "Blood Loss (mL)",
-    // "surgery_duration": "Surgery Duration (minutes)"
     "anes_duration": "Anesthesia Duration (minutes)",
     "surgery_duration": "Surgery Duration (minutes)"
 };
@@ -95,45 +91,60 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
         if (predictor === "ane_type") {
             svg.selectAll("circle").remove();
         
-            const aggregatedData = d3.group(filteredData, d => d.ane_type);
-            const barData = Array.from(aggregatedData, ([key, value]) => ({
-                type: key,
-                avgLOS: d3.mean(value, d => d.los_postop),
-                count: value.length,
-                mortalityCount: value.filter(d => d.mortality_label === "Mortality").length,
-                mortalityRate: (value.filter(d => d.mortality_label === "Mortality").length / value.length) * 100
-            }));
+            const aggregatedData = Array.from(
+                d3.group(filteredData, d => `${d.ane_type}-${d.approach}`),
+                ([key, value]) => ({
+                    type: key.split('-')[0],
+                    approach: key.split('-')[1],
+                    avgLOS: d3.mean(value, d => d.los_postop),
+                    count: value.length,
+                    mortalityCount: value.filter(d => d.mortality_label === "Mortality").length,
+                    mortalityRate: (value.filter(d => d.mortality_label === "Mortality").length / value.length) * 100
+                })
+            );
         
+            const aneTypes = Array.from(new Set(aggregatedData.map(d => d.type)));
+            const approaches = Array.from(new Set(aggregatedData.map(d => d.approach)));
 
             xScale = d3.scaleBand()
-                .domain(barData.map(d => d.type))
+                .domain(aneTypes)
                 .range([margin.left, width - margin.right])
-                .padding(0.1);
+                .padding(0.2);
         
-            yScale.domain([0, d3.max(barData, d => d.avgLOS)]).nice();
+            const xSubScale = d3.scaleBand()
+                .domain(approaches)
+                .range([0, xScale.bandwidth()])
+                .padding(0.05);
+        
+            yScale.domain([0, d3.max(aggregatedData, d => d.avgLOS)]).nice();
         
             xAxisGroup.call(d3.axisBottom(xScale));
             yAxisGroup.call(d3.axisLeft(yScale));
         
-            const bars = svg.selectAll("rect")
-                .data(barData);
-        
             const colorScale = d3.scaleOrdinal()
+                .domain(approaches)
                 .range(d3.schemeCategory10);
-            
-            bars.enter()
-                .append("rect")
-                .merge(bars)
-                .attr("x", d => xScale(d.type))
+        
+            const bars = svg.selectAll("g.ane-group")
+                .data(aneTypes)
+                .join("g")
+                .attr("class", "ane-group")
+                .attr("transform", d => `translate(${xScale(d)},0)`);
+        
+            bars.selectAll("rect")
+                .data(aneType => aggregatedData.filter(d => d.type === aneType))
+                .join("rect")
+                .attr("x", d => xSubScale(d.approach))
                 .attr("y", d => yScale(d.avgLOS))
-                .attr("width", xScale.bandwidth())
+                .attr("width", xSubScale.bandwidth())
                 .attr("height", d => height - margin.bottom - yScale(d.avgLOS))
-                .attr("fill", d => colorScale(d.type))
+                .attr("fill", d => colorScale(d.approach))
                 .attr("opacity", 0.7)
                 .on("mouseover", function(event, d) {
                     tooltip.transition().duration(200).style("opacity", 1);
                     tooltip.html(`
                         <strong>Anesthesia Type:</strong> ${d.type}<br>
+                        <strong>Approach:</strong> ${d.approach}<br>
                         <strong>Average LOS:</strong> ${d.avgLOS.toFixed(2)} days<br>
                         <strong>Number of Patients:</strong> ${d.count}<br>
                         <strong>Mortality Rate:</strong> ${d.mortalityRate.toFixed(1)}%
@@ -149,7 +160,27 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
                     tooltip.transition().duration(200).style("opacity", 0);
                 });
         
-            bars.exit().remove();
+
+            const legend = svg.selectAll(".legend")
+                .data(approaches)
+                .join("g")
+                .attr("class", "legend")
+                .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+                
+            legend.append("rect")
+                .attr("x", width - 120)
+                .attr("y", 20)
+                .attr("width", 15)
+                .attr("height", 15)
+                .attr("fill", d => colorScale(d));
+        
+            legend.append("text")
+                .attr("x", width - 100)
+                .attr("y", 28)
+                .attr("dy", ".35em")
+                .style("font-size", "12px")
+                .text(d => d);
         
             xAxisLabel.text("Anesthesia Type");
         
