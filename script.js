@@ -234,6 +234,7 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
                     <strong>LOS:</strong> ${d.los_postop.toFixed(2)} days<br>
                     <strong>ASA Status:</strong> ${d.asa}<br>
                     <strong>Approach:</strong> ${d.approach}<br>
+                    <strong>Department:</strong> ${d.department}<br>
                     <strong>Mortality:</strong> ${d.mortality_label}
                 `)
                 .style("left", (event.pageX + 10) + "px")
