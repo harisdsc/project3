@@ -160,29 +160,40 @@ d3.json("data/clinical_data_cleaned.json").then(data => {
                     tooltip.transition().duration(200).style("opacity", 0);
                 });
         
+        const legendGroup = svg.append("g")
+        .attr("class", "legend-group")
+        .attr("transform", `translate(${width - 120}, 20)`);
 
-            const legend = svg.selectAll(".legend")
-                .data(approaches)
-                .join("g")
-                .attr("class", "legend")
-                .attr("transform", (d, i) => `translate(0,${i * 20})`);
+        // Add the legend title
+        legendGroup.append("text")
+        .attr("class", "legend-title")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("font-weight", "bold")
+        .attr("font-size", "12px")
+        .text("Surgical Approach");
 
-                
-            legend.append("rect")
-                .attr("x", width - 120)
-                .attr("y", 20)
-                .attr("width", 15)
-                .attr("height", 15)
-                .attr("fill", d => colorScale(d));
+        const legend = legendGroup.selectAll(".legend")
+        .data(approaches)
+        .join("g")
+        .attr("class", "legend")
+        .attr("transform", (d, i) => `translate(0,${i * 20 + 15})`);
+
+        legend.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 15)
+        .attr("height", 15)
+        .attr("fill", d => colorScale(d));
+
+        legend.append("text")
+        .attr("x", 20)
+        .attr("y", 8)
+        .attr("dy", ".35em")
+        .style("font-size", "12px")
+        .text(d => d);
         
-            legend.append("text")
-                .attr("x", width - 100)
-                .attr("y", 28)
-                .attr("dy", ".35em")
-                .style("font-size", "12px")
-                .text(d => d);
-        
-            xAxisLabel.text("Anesthesia Type");
+        xAxisLabel.text("Anesthesia Type");
         
             return;
         }
