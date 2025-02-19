@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 3</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Impact of Anesthesia on Length of Stay</h1>
+
+    <div class="controls">
+        <label for="predictor">Predictor:</label>
+        <select id="predictor">
+            <!-- <option value="age">Age</option>
+            <option value="bmi">BMI</option>
+            <option value="intraop_ebl">Blood Loss</option>
+            <option value="surgery_duration">Surgery Duration</option> -->
+            <option value="anes_duration">Anesthesia Duration</option> -->
+            <option value="surgery_duration">Surgery Duration</option> -->
+            <option value="ane_type">Anesthesia Type</option> -->
+        </select>
+
+        <label for="asa">ASA Physical Status:</label>
+        <select id="asa">
+            <option value="all">All ASA Classes</option>
+            <option value="1">ASA 1</option>
+            <option value="2">ASA 2</option>
+            <option value="3">ASA 3</option>
+            <option value="4">ASA 4</option>
+        </select>
+
+        <label for="approach">Surgical Approach:</label>
+        <select id="approach">
+            <option value="all">All Approaches</option>
+            <option value="Open">Open</option>
+            <option value="Videoscopic">Videoscopic</option>
+            <option value="Robotic">Robotic</option>
+        </select>
+
+        <label for="department">Department:</label>
+        <select id="department">
+            <option value="all">All Departments</option>
+            <option value="General surgery">General Surgery</option>
+            <option value="Thoraic surgery">Thoracic Surgery</option>
+            <option value="Gynecology">Gynecology</option>
+            <option value="Urology">Urology</option>
+        </select>
+    
+        <label for="mortality">Mortality:</label>
+        <select id="mortality">
+            <option value="all">All Outcomes</option>
+            <option value="Survived">Survived</option>
+            <option value="Mortality">Mortal</option>
+        </select>
+    </div>
+    <div id="chart-container">
+        <svg id="chart"></svg>
+    </div>
+
+    <div id="asa-description" style="margin-top: 20px; font-size: 14px;"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
