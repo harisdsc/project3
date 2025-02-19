@@ -19,8 +19,7 @@
     background-color: var(--primary-color);
     color: white;
     text-align: center;
-    padding: 2rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.3em 0;
   }
   
   h1 {
@@ -96,7 +95,7 @@
   
   .description {
     margin-top: 2rem;
-    margin-bottom: 1em;
+    /* margin-bottom: 1em; */
     font-size: 1rem;
     text-align: center;
     color: var(--secondary-color);
