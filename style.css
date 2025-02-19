@@ -1,40 +1,122 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --background-color: #f5f7fa;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+  
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
     margin: 0;
     padding: 0;
-}
-
-h1 {
-    font-size: 24px;
-    margin-top: 20px;
-}
-
-.controls {
+  }
+  
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    padding-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    margin: 0;
+    opacity: 0.8;
+  }
+  
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .controls {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.controls select {
-    padding: 2px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-#chart-container {
-    display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+  }
+  
+  select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+    transition: border-color 0.3s ease;
+  }
+  
+  select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  #chart-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  svg {
     width: 100%;
-    height: auto;
-    overflow: hidden;
-}
-
-svg {
-    width: 80%;
     height: 500px;
-    max-width: 800px;
-}
+    max-width: 1000px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .description {
+    margin-top: 2rem;
+    font-size: 1rem;
+    text-align: center;
+    color: var(--secondary-color);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .subtitle {
+      font-size: 1rem;
+    }
+  
+    .control-group {
+      min-width: 100%;
+    }
+  }
+  
+  

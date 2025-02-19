@@ -3,61 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 3</title>
+    <title>Anesthesia's Influence on Surgery Recovery Time</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>With or Without?: Anesthesia's Influence on Surgery Recovery Time</h1>
-    <h4>Analyzing how anesthesia duration and type affect post-surgical length of stay</h2>
+    <header>
+        <h1>With or Without?: Anesthesia's Influence on Surgery Recovery Time</h1>
+        <p class="subtitle">Analyzing how anesthesia duration and type affect post-surgical length of stay</p>
+    </header>
 
-    <div class="controls">
-        <label for="predictor">Predictor:</label>
-        <select id="predictor">
+    <main>
+        <div class="controls">
+            <div class="control-group">
+                <label for="predictor">Predictor:</label>
+                <select id="predictor">
+                    <option value="anes_duration">Anesthesia Duration</option>
+                    <option value="surgery_duration">Surgery Duration</option>
+                    <option value="ane_type">Anesthesia Type</option>
+                </select>
+            </div>
 
-            <option value="anes_duration">Anesthesia Duration</option>
-            <option value="surgery_duration">Surgery Duration</option>
-            <option value="ane_type">Anesthesia Type</option>
-        </select>
+            <div class="control-group">
+                <label for="asa">ASA Grade:</label>
+                <select id="asa">
+                    <option value="all">All ASA Classes</option>
+                    <option value="1">ASA 1</option>
+                    <option value="2">ASA 2</option>
+                    <option value="3">ASA 3</option>
+                    <option value="4">ASA 4</option>
+                </select>
+            </div>
 
-        <label for="asa">ASA Grade:</label>
-        <select id="asa">
-            <option value="all">All ASA Classes</option>
-            <option value="1">ASA 1</option>
-            <option value="2">ASA 2</option>
-            <option value="3">ASA 3</option>
-            <option value="4">ASA 4</option>
-        </select>
+            <div class="control-group">
+                <label for="approach">Approach:</label>
+                <select id="approach">
+                    <option value="all">All Approaches</option>
+                    <option value="Open">Open</option>
+                    <option value="Videoscopic">Videoscopic</option>
+                    <option value="Robotic">Robotic</option>
+                </select>
+            </div>
 
-        <label for="approach">Approach:</label>
-        <select id="approach">
-            <option value="all">All Approaches</option>
-            <option value="Open">Open</option>
-            <option value="Videoscopic">Videoscopic</option>
-            <option value="Robotic">Robotic</option>
-        </select>
+            <div class="control-group">
+                <label for="department">Department:</label>
+                <select id="department">
+                    <option value="all">All Departments</option>
+                    <option value="General surgery">General Surgery</option>
+                    <option value="Thoracic surgery">Thoracic Surgery</option>
+                    <option value="Gynecology">Gynecology</option>
+                    <option value="Urology">Urology</option>
+                </select>
+            </div>
 
-        <label for="department">Department:</label>
-        <select id="department">
-            <option value="all">All Departments</option>
-            <option value="General surgery">General Surgery</option>
-            <option value="Thoraic surgery">Thoracic Surgery</option>
-            <option value="Gynecology">Gynecology</option>
-            <option value="Urology">Urology</option>
-        </select>
-        <label for="mortality">Mortality:</label>
-        <select id="mortality">
-            <option value="all">All Outcomes</option>
-            <option value="Survived">Survived</option>
-            <option value="Mortality">Deceased</option>
-        </select>
-    </div>
-    <div id="chart-container">
-        <svg id="chart"></svg>
-    </div>
+            <div class="control-group">
+                <label for="mortality">Mortality:</label>
+                <select id="mortality">
+                    <option value="all">All Outcomes</option>
+                    <option value="Survived">Survived</option>
+                    <option value="Mortality">Deceased</option>
+                </select>
+            </div>
+        </div>
 
-    <div id="asa-description" style="margin-top: 20px; font-size: 14px;"></div>
+        <div id="chart-container">
+            <svg id="chart"></svg>
+        </div>
+
+        <div id="asa-description" class="description"></div>
+    </main>
 
     <script src="script.js"></script>
 </body>
 </html>
+
